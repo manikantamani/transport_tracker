@@ -1,0 +1,165 @@
+{
+  "app_name": "LogiDiary",
+  "personality": "1 iOS-Native Clean (Adapted for Transport/Utility)",
+  "personality_one_liner": "A professional, high-clarity command center that puts fleet operations and financial metrics first without feeling cluttered.",
+  "color": {
+    "surface": "#F8FAFC",
+    "onSurface": "#0F172A",
+    "surfaceSecondary": "#FFFFFF",
+    "onSurfaceSecondary": "#1E293B",
+    "surfaceTertiary": "#F1F5F9",
+    "onSurfaceTertiary": "#334155",
+    "surfaceInverse": "#0F172A",
+    "onSurfaceInverse": "#FFFFFF",
+    "brand": "#1E3A8A",
+    "brandPrimary": "#1E3A8A",
+    "onBrandPrimary": "#FFFFFF",
+    "brandSecondary": "#3B82F6",
+    "onBrandSecondary": "#FFFFFF",
+    "brandTertiary": "#DBEAFE",
+    "onBrandTertiary": "#1D4ED8",
+    "success": "#10B981",
+    "onSuccess": "#FFFFFF",
+    "warning": "#F59E0B",
+    "onWarning": "#FFFFFF",
+    "error": "#EF4444",
+    "onError": "#FFFFFF",
+    "info": "#3B82F6",
+    "onInfo": "#FFFFFF",
+    "border": "#E2E8F0",
+    "borderStrong": "#CBD5E1",
+    "divider": "#F1F5F9"
+  },
+  "typography": {
+    "displayFontFamily": "PlusJakartaSans",
+    "textFontFamily": "PlusJakartaSans",
+    "scale": {
+      "sm": 12,
+      "base": 14,
+      "lg": 16,
+      "xl": 20,
+      "2xl": 24
+    }
+  },
+  "spacing": {
+    "rule": "Generous padding around content, clear grouping. No cramped cards. Consistent margins.",
+    "xs": 4,
+    "sm": 8,
+    "md": 12,
+    "lg": 16,
+    "xl": 24,
+    "2xl": 32,
+    "3xl": 48
+  },
+  "radius_tokens": {
+    "sm": 6,
+    "md": 12,
+    "lg": 20,
+    "pill": 999
+  },
+  "shadow_tier": 1,
+  "navigation": "bottom_tabs",
+  "icon_set": "Phosphor",
+  "glassmorphism": {
+    "enabled": true,
+    "do's": [
+      "Bottom tab bar",
+      "Sticky horizontal date strip in timeline view",
+      "Sticky CTA containers"
+    ],
+    "dont's": [
+      "Data cards",
+      "Form inputs"
+    ]
+  },
+  "platform_libraries": {
+    "glass": {
+      "ios": "expo-glass-effect",
+      "android": "expo-blur",
+      "low_end_android_fallback": "solid surfaceSecondary"
+    },
+    "image": "expo-image",
+    "blur": "expo-blur",
+    "bottom_sheet": "@gorhom/bottom-sheet",
+    "animation": "react-native-reanimated",
+    "gesture": "react-native-gesture-handler"
+  },
+  "haptics": {
+    "events": {
+      "tab_press": "light",
+      "button_press": "medium",
+      "date_select": "light",
+      "success_action": "notification_success",
+      "error_action": "notification_error"
+    }
+  },
+  "screens": [
+    {
+      "name": "Dashboard",
+      "purpose": "High-level overview of fleet performance with a timeline of recent/upcoming trips.",
+      "states": {
+        "loading": "Centered spinner",
+        "empty": "Illustration of a parked truck or empty box indicating no trips for the selected day.",
+        "error": "Error message with a retry button to fetch dashboard data."
+      },
+      "layout": "Single column. Top section: 2 KPI blocks side-by-side (Total Trips, Revenue in INR). Below: A sticky horizontal scrollable Timeline picker (-30 to +30 days) where the active date uses a brandPrimary pill. Below timeline: Vertical list of trip cards for the selected day. The trip cards should clearly display 'From', 'To', Driver, and Vehicle data. Pad the bottom for the tab bar."
+    },
+    {
+      "name": "Trips",
+      "purpose": "Complete log of all trips with adding capabilities.",
+      "states": {
+        "loading": "Skeleton list rows",
+        "empty": "Illustration showing no trips logged yet.",
+        "error": "Failed to load trips banner with retry."
+      },
+      "layout": "Header with Segmented Control (All / Past / Future). Vertical FlatList of trip cards. Sticky primary CTA 'Add Trip' fixed at bottom right above the safe area. The Add Trip flow can be a full-screen modal with form fields."
+    },
+    {
+      "name": "Fleet",
+      "purpose": "Manage the transport company's core assets: trucks and drivers.",
+      "states": {
+        "loading": "Skeleton cards",
+        "empty": "Empty state illustration with primary action to 'Add your first vehicle/driver'.",
+        "error": "Retry loading fleet data."
+      },
+      "layout": "Top sticky Segmented Control (Vehicles | Drivers). Vehicles view: Grid/List of cards containing real truck photos, registration number, and model. Drivers view: List rows with driver avatar, name, and contact number. Include a sticky CTA 'Add Vehicle/Driver' based on active tab."
+    },
+    {
+      "name": "Profile",
+      "purpose": "Manage personal contact details for the single user.",
+      "states": {
+        "loading": "Spinner over inputs",
+        "empty": "N/A",
+        "error": "Toast or inline error for failed updates."
+      },
+      "layout": "Clean list view. Top: Large initials avatar inside a brandTertiary circle. Form fields for Mobile Number and Email below. 'Save Changes' primary button pinned at the bottom."
+    }
+  ],
+  "images": {
+    "dashboard_hero_bg": {
+      "url": "https://images.pexels.com/photos/2800121/pexels-photo-2800121.jpeg",
+      "alt": "Overhead shot of semi-trucks parked demonstrating transportation logistics"
+    },
+    "empty_trips": {
+      "url": "https://images.unsplash.com/photo-1577705998148-6da4f3963bc8",
+      "alt": "Empty delivery box"
+    },
+    "generic_driver_avatar": {
+      "url": "https://images.unsplash.com/photo-1505165697550-710e168b709d",
+      "alt": "Truck driver professional portrait"
+    },
+    "generic_truck": {
+      "url": "https://images.unsplash.com/photo-1772817337640-e5abf19b6430",
+      "alt": "Dark pickup/delivery truck"
+    }
+  },
+  "instructions_to_main_agent": [
+    "Strictly apply the Navy Blue (#1E3A8A) palette as the user explicitly requested a 'Professional blue/navy theme' for their logistics app, overriding the standard anti-blue rule.",
+    "Format all currency values natively as INR (₹) utilizing Intl.NumberFormat('en-IN', ...).",
+    "Timeline View implementation: Create a horizontally scrolling FlatList for the dates ranging from today-30 to today+30. The active selected date should update the vertical list of trips directly underneath it.",
+    "For Vehicle and Driver creation forms, integrate `expo-image-picker`. Configure it to return base64 strings (`base64: true`) for Vehicle Photos, RC Documents, and License Documents, as MongoDB will store these directly.",
+    "Do not exceed font weight 500 for Plus Jakarta Sans; rely on size scaling for typographic hierarchy.",
+    "Ensure 'Add Trip', 'Add Vehicle', and 'Add Driver' CTAs are sticky at the bottom of the screen (or bottom-right as a FAB with glassmorphism), floating above scrollable content.",
+    "Include empty states on Dashboard, Trips, and Fleet screens using the provided Unsplash/Pexels URLs combined with vertical gradient scrims to maintain contrast if text overlays are used."
+  ]
+}
