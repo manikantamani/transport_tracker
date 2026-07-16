@@ -1,6 +1,7 @@
 import { useCallback, useMemo, useRef, useState } from "react";
 import {
   FlatList,
+  Image,
   Pressable,
   RefreshControl,
   ScrollView,
@@ -8,7 +9,7 @@ import {
   Text,
   View,
 } from "react-native";
-import { useFocusEffect, useRouter } from "expo-router";
+import { Icon, useFocusEffect, useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -99,13 +100,15 @@ export default function Dashboard() {
       {/* Header */}
       <View style={styles.header}>
         <View>
-          <Text style={styles.hello}>Hello 👋</Text>
           <Text style={styles.appName} testID="dashboard-title">
-            LogiDiary
+            Krishnaveni Transport
           </Text>
         </View>
         <View style={styles.logoCircle}>
-          <Ionicons name="bus" size={22} color={colors.onBrandPrimary} />
+          <Image source={require("../../assets/images/truck_white.png")}  style={{
+    width: 30,
+    height: 30,
+  }}/>
         </View>
       </View>
 
@@ -155,6 +158,7 @@ export default function Dashboard() {
           contentContainerStyle={styles.dateStrip}
           initialScrollIndex={todayIndex}
           getItemLayout={(_, index) => ({ length: 64, offset: 64 * index, index })}
+          
           renderItem={({ item }) => {
             const active = item.iso === selectedDate;
             const isToday = item.iso === todayIso;
@@ -170,7 +174,8 @@ export default function Dashboard() {
                 {isToday && !active && <View style={styles.todayDot} />}
               </Pressable>
             );
-          }}
+          }
+        }
         />
 
         {/* Trips for selected day */}

@@ -138,7 +138,7 @@ export default function ProfileScreen() {
           <View style={styles.aboutBox}>
             <Text style={styles.aboutTitle}>About</Text>
             <Text style={styles.aboutText}>
-              LogiDiary keeps your trips, drivers, and vehicles safely on-device. All your data lives
+              Krishnaveni Transport keeps your trips, drivers, and vehicles safely on-device. All your data lives
               locally in this app — no cloud sync.
             </Text>
           </View>

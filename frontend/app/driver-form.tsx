@@ -87,6 +87,8 @@ export default function DriverForm() {
     .join("")
     .toUpperCase();
 
+    
+
   return (
     <SafeAreaView style={styles.safe} edges={["top", "bottom"]} testID="driver-form-screen">
       <View style={styles.header}>
@@ -126,19 +128,39 @@ export default function DriverForm() {
               testID="driver-name-input"
             />
           </View>
+<Text style={[styles.label, { marginTop: spacing.md }]}>Contact Number *</Text>
+          <View
+  style={{
+    width: "100%",
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+  }}
+>
+  
+  <TextInput
+    style={[styles.input, { flex: 1 }]}
+    value={contactNumber}
+    onChangeText={setContactNumber}
+    placeholder="+91 98765 43210"
+    placeholderTextColor={colors.muted}
+    keyboardType="phone-pad"
+    testID="driver-contact-input"
+  />
 
-          <View style={styles.formGroup}>
-            <Text style={styles.label}>Contact Number *</Text>
-            <TextInput
-              style={styles.input}
-              value={contactNumber}
-              onChangeText={setContactNumber}
-              placeholder="+91 98765 43210"
-              placeholderTextColor={colors.muted}
-              keyboardType="phone-pad"
-              testID="driver-contact-input"
-            />
-          </View>
+  <Pressable
+    onPress={() => {
+      console.log("Icon pressed");
+    }}
+    hitSlop={8}
+  >
+    <Ionicons
+      name="call"
+      size={22}
+      color={colors.brand}
+    />
+  </Pressable>
+</View>
 
           <Text style={[styles.label, { marginTop: spacing.md }]}>License Document</Text>
           <Pressable style={styles.uploadBox} onPress={onPickLicense} testID="driver-license-upload">
@@ -205,16 +227,17 @@ const styles = StyleSheet.create({
   avatarHint: { marginTop: spacing.sm, color: colors.muted, fontSize: 12 },
   label: { fontSize: 12, color: colors.muted, marginBottom: 6, marginLeft: 4 },
   formGroup: { marginTop: spacing.md },
-  input: {
-    backgroundColor: colors.surfaceSecondary,
-    borderRadius: radius.md,
-    paddingHorizontal: spacing.lg,
-    paddingVertical: spacing.md,
-    fontSize: 15,
-    color: colors.onSurface,
-    borderWidth: 1,
-    borderColor: colors.border,
-  },
+input: {
+  flex: 1,
+  backgroundColor: colors.surfaceSecondary,
+  borderRadius: radius.md,
+  paddingHorizontal: spacing.lg,
+  paddingVertical: spacing.md,
+  fontSize: 15,
+  color: colors.onSurface,
+  borderWidth: 1,
+  borderColor: colors.border,
+},
   uploadBox: {
     backgroundColor: colors.surfaceSecondary,
     borderRadius: radius.md,
