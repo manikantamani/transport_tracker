@@ -112,16 +112,6 @@ export default function TripsScreen() {
                     })}
                   </Text>
                 </View>
-                <Pressable
-                  style={styles.mapBtn}
-                  onPress={(e) => {
-                    e.stopPropagation?.();
-                    openMapDirections(item.fromLocation, item.toLocation);
-                  }}
-                  testID={`trip-${item.id}-map`}
-                >
-                  <Ionicons name="navigate" size={16} color="#fff" />
-                </Pressable>
                 <View style={[styles.badge, { backgroundColor: isPast ? colors.surfaceTertiary : colors.brandTertiary }]}>
                   <Text style={[styles.badgeText, { color: isPast ? colors.muted : colors.onBrandTertiary }]}>
                     {isPast ? "Completed" : "Upcoming"}
