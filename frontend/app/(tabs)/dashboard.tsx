@@ -101,7 +101,7 @@ export default function Dashboard() {
         <View>
           <Text style={styles.hello}>Hello 👋</Text>
           <Text style={styles.appName} testID="dashboard-title">
-            LogiDiary
+            Krishnaveni Transports
           </Text>
         </View>
         <View style={styles.logoCircle}>
@@ -255,7 +255,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   hello: { color: colors.muted, fontSize: 13 },
-  appName: { color: colors.onSurface, fontSize: 24, fontWeight: "500", marginTop: 2 },
+  appName: { color: colors.onSurface, fontSize: 20, fontWeight: "500", marginTop: 2 },
   logoCircle: {
     width: 44,
     height: 44,
