@@ -1,18 +1,19 @@
 {
   "expo": {
-    "name": "frontend",
-    "slug": "frontend",
+    "name": "Krishnaveni Transports",
+    "slug": "krishnaveni-transports",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "frontend",
     "userInterfaceStyle": "automatic",
-    "edgeToEdgeEnabled": true,
+    "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.emergent.journeymanager.ibmgx4",
       "infoPlist": {
-        "NSPhotoLibraryUsageDescription": "Attach vehicle photos and documents to your fleet"
+        "NSPhotoLibraryUsageDescription": "Attach vehicle photos and documents to your fleet",
+        "NSContactsUsageDescription": "Pick contact numbers for trip from/to locations"
       }
     },
     "android": {
@@ -20,11 +21,9 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#1E3A8A"
       },
-      "edgeToEdgeEnabled": true,
+      "edgeToEdgeEnabled": false,
       "package": "com.emergent.journeymanager.ibmgx4",
-      "permissions": [
-        "READ_EXTERNAL_STORAGE"
-      ]
+      "permissions": ["READ_EXTERNAL_STORAGE", "READ_CONTACTS", "CALL_PHONE"]
     },
     "web": {
       "bundler": "metro",
@@ -37,17 +36,18 @@
         "expo-splash-screen",
         {
           "image": "./assets/images/splash-image.png",
-          "imageWidth": 200,
+          "imageWidth": 320,
           "resizeMode": "contain",
-          "backgroundColor": "#000000"
+          "backgroundColor": "#1E3A8A"
         }
       ],
       "@react-native-community/datetimepicker",
-      "expo-font",
-      "expo-image",
-      "expo-secure-store",
-      "expo-status-bar",
-      "expo-web-browser"
+      [
+        "expo-contacts",
+        {
+          "contactsPermission": "Pick contact numbers for trip from/to locations"
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true

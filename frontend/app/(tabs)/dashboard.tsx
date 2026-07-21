@@ -1,7 +1,6 @@
 import { useCallback, useMemo, useRef, useState } from "react";
 import {
   FlatList,
-  Image,
   Pressable,
   RefreshControl,
   ScrollView,
@@ -9,7 +8,7 @@ import {
   Text,
   View,
 } from "react-native";
-import { Icon, useFocusEffect, useRouter } from "expo-router";
+import { useFocusEffect, useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -100,15 +99,13 @@ export default function Dashboard() {
       {/* Header */}
       <View style={styles.header}>
         <View>
+          <Text style={styles.hello}>Hello 👋</Text>
           <Text style={styles.appName} testID="dashboard-title">
-            Krishnaveni Transport
+            Krishnaveni Transports
           </Text>
         </View>
         <View style={styles.logoCircle}>
-          <Image source={require("../../assets/images/truck_white.png")}  style={{
-    width: 30,
-    height: 30,
-  }}/>
+          <Ionicons name="bus" size={22} color={colors.onBrandPrimary} />
         </View>
       </View>
 
@@ -158,7 +155,6 @@ export default function Dashboard() {
           contentContainerStyle={styles.dateStrip}
           initialScrollIndex={todayIndex}
           getItemLayout={(_, index) => ({ length: 64, offset: 64 * index, index })}
-          
           renderItem={({ item }) => {
             const active = item.iso === selectedDate;
             const isToday = item.iso === todayIso;
@@ -174,8 +170,7 @@ export default function Dashboard() {
                 {isToday && !active && <View style={styles.todayDot} />}
               </Pressable>
             );
-          }
-        }
+          }}
         />
 
         {/* Trips for selected day */}
@@ -260,7 +255,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   hello: { color: colors.muted, fontSize: 13 },
-  appName: { color: colors.onSurface, fontSize: 24, fontWeight: "500", marginTop: 2 },
+  appName: { color: colors.onSurface, fontSize: 20, fontWeight: "500", marginTop: 2 },
   logoCircle: {
     width: 44,
     height: 44,

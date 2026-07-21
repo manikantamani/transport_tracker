@@ -14,6 +14,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { colors, formatINR, radius, spacing } from "@/src/theme";
 import { TripsDB } from "@/src/store/database";
 import { Trip } from "@/src/store/types";
+import { callNumber, openMapDirections } from "@/src/utils/contacts";
 
 type Filter = "all" | "past" | "future";
 
@@ -128,17 +129,52 @@ export default function TripsScreen() {
                   <View>
                     <Text style={styles.routeLabel}>FROM</Text>
                     <Text style={styles.routeName} numberOfLines={1}>{item.fromLocation}</Text>
-                    {!!item.fromContact && <Text style={styles.routeContact}>📞 {item.fromContact}</Text>}
+                    {!!item.fromContact && (
+                      <Pressable
+                        style={styles.contactPressable}
+                        onPress={(e) => {
+                          e.stopPropagation?.();
+                          callNumber(item.fromContact);
+                        }}
+                        testID={`trip-${item.id}-call-from`}
+                      >
+                        <Ionicons name="call" size={12} color={colors.success} />
+                        <Text style={styles.routeContact}>{item.fromContact}</Text>
+                      </Pressable>
+                    )}
                   </View>
                   <View>
                     <Text style={styles.routeLabel}>TO</Text>
                     <Text style={styles.routeName} numberOfLines={1}>{item.toLocation}</Text>
-                    {!!item.toContact && <Text style={styles.routeContact}>📞 {item.toContact}</Text>}
+                    {!!item.toContact && (
+                      <Pressable
+                        style={styles.contactPressable}
+                        onPress={(e) => {
+                          e.stopPropagation?.();
+                          callNumber(item.toContact);
+                        }}
+                        testID={`trip-${item.id}-call-to`}
+                      >
+                        <Ionicons name="call" size={12} color={colors.success} />
+                        <Text style={styles.routeContact}>{item.toContact}</Text>
+                      </Pressable>
+                    )}
                   </View>
                 </View>
               </View>
 
               <View style={styles.footer}>
+                <Pressable
+                  style={styles.mapBtn}
+                  onPress={(e) => {
+                    e.stopPropagation?.();
+                    openMapDirections(item.fromLocation, item.toLocation);
+                  }}
+                  testID={`trip-${item.id}-map`}
+                >
+                  <Ionicons name="navigate" size={14} color="#fff" />
+                  <Text style={styles.mapBtnText}>Map</Text>
+                </Pressable>
                 <View style={styles.footerLeft}>
                   {!!item.driverName && (
                     <View style={styles.pill}>
@@ -219,6 +255,17 @@ const styles = StyleSheet.create({
   cardDate: { fontSize: 12, color: colors.muted, marginTop: 2 },
   badge: { paddingHorizontal: 10, paddingVertical: 4, borderRadius: radius.pill, marginLeft: 8 },
   badgeText: { fontSize: 11, fontWeight: "500" },
+  mapBtn: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 4,
+    backgroundColor: colors.brandSecondary,
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    borderRadius: radius.pill,
+    marginRight: 8,
+  },
+  mapBtnText: { color: "#fff", fontSize: 11, fontWeight: "500" },
   routeWrap: { flexDirection: "row", marginTop: spacing.md, gap: spacing.md },
   routeLine: { width: 16, alignItems: "center", paddingTop: 6 },
   dotFrom: { width: 10, height: 10, borderRadius: 5, backgroundColor: colors.brandPrimary },
@@ -226,7 +273,8 @@ const styles = StyleSheet.create({
   dotTo: { width: 10, height: 10, borderRadius: 5, backgroundColor: colors.brandSecondary },
   routeLabel: { fontSize: 10, color: colors.muted, letterSpacing: 0.5 },
   routeName: { fontSize: 14, color: colors.onSurface, fontWeight: "500", marginTop: 2 },
-  routeContact: { fontSize: 12, color: colors.muted, marginTop: 2 },
+  routeContact: { fontSize: 12, color: colors.muted },
+  contactPressable: { flexDirection: "row", alignItems: "center", gap: 4, marginTop: 2 },
   footer: {
     flexDirection: "row",
     alignItems: "center",
