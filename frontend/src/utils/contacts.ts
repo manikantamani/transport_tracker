@@ -80,3 +80,35 @@ export async function callNumber(phone: string) {
     // no-op
   }
 }
+
+/**
+ * Open Google Maps (on Android) or default maps app with directions
+ * between `from` and `to` textual locations.
+ */
+export async function openMapDirections(from: string, to: string) {
+  const origin = encodeURIComponent((from || "").trim());
+  const destination = encodeURIComponent((to || "").trim());
+  if (!destination) return;
+
+  // Universal Google Maps URL – opens the Google Maps app when installed on
+  // Android, or google.com/maps in the browser as fallback.
+  const url = `https://www.google.com/maps/dir/?api=1${
+    origin ? `&origin=${origin}` : ""
+  }&destination=${destination}&travelmode=driving`;
+
+  try {
+    // Prefer the Android-only google.navigation intent so it always launches
+    // the native Google Maps app.
+    if (Platform.OS === "android") {
+      const nav = `google.navigation:q=${destination}`;
+      const canNav = await Linking.canOpenURL(nav);
+      if (canNav) {
+        await Linking.openURL(nav);
+        return;
+      }
+    }
+    await Linking.openURL(url);
+  } catch {
+    // no-op
+  }
+}

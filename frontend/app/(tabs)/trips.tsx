@@ -14,7 +14,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { colors, formatINR, radius, spacing } from "@/src/theme";
 import { TripsDB } from "@/src/store/database";
 import { Trip } from "@/src/store/types";
-import { callNumber } from "@/src/utils/contacts";
+import { callNumber, openMapDirections } from "@/src/utils/contacts";
 
 type Filter = "all" | "past" | "future";
 
@@ -112,6 +112,16 @@ export default function TripsScreen() {
                     })}
                   </Text>
                 </View>
+                <Pressable
+                  style={styles.mapBtn}
+                  onPress={(e) => {
+                    e.stopPropagation?.();
+                    openMapDirections(item.fromLocation, item.toLocation);
+                  }}
+                  testID={`trip-${item.id}-map`}
+                >
+                  <Ionicons name="navigate" size={16} color="#fff" />
+                </Pressable>
                 <View style={[styles.badge, { backgroundColor: isPast ? colors.surfaceTertiary : colors.brandTertiary }]}>
                   <Text style={[styles.badgeText, { color: isPast ? colors.muted : colors.onBrandTertiary }]}>
                     {isPast ? "Completed" : "Upcoming"}
@@ -244,6 +254,15 @@ const styles = StyleSheet.create({
   cardDate: { fontSize: 12, color: colors.muted, marginTop: 2 },
   badge: { paddingHorizontal: 10, paddingVertical: 4, borderRadius: radius.pill, marginLeft: 8 },
   badgeText: { fontSize: 11, fontWeight: "500" },
+  mapBtn: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: colors.brandSecondary,
+    alignItems: "center",
+    justifyContent: "center",
+    marginLeft: 8,
+  },
   routeWrap: { flexDirection: "row", marginTop: spacing.md, gap: spacing.md },
   routeLine: { width: 16, alignItems: "center", paddingTop: 6 },
   dotFrom: { width: 10, height: 10, borderRadius: 5, backgroundColor: colors.brandPrimary },
