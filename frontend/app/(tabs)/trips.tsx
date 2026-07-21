@@ -174,6 +174,17 @@ export default function TripsScreen() {
               </View>
 
               <View style={styles.footer}>
+                <Pressable
+                  style={styles.mapBtn}
+                  onPress={(e) => {
+                    e.stopPropagation?.();
+                    openMapDirections(item.fromLocation, item.toLocation);
+                  }}
+                  testID={`trip-${item.id}-map`}
+                >
+                  <Ionicons name="navigate" size={14} color="#fff" />
+                  <Text style={styles.mapBtnText}>Map</Text>
+                </Pressable>
                 <View style={styles.footerLeft}>
                   {!!item.driverName && (
                     <View style={styles.pill}>
@@ -255,14 +266,16 @@ const styles = StyleSheet.create({
   badge: { paddingHorizontal: 10, paddingVertical: 4, borderRadius: radius.pill, marginLeft: 8 },
   badgeText: { fontSize: 11, fontWeight: "500" },
   mapBtn: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
-    backgroundColor: colors.brandSecondary,
+    flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center",
-    marginLeft: 8,
+    gap: 4,
+    backgroundColor: colors.brandSecondary,
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    borderRadius: radius.pill,
+    marginRight: 8,
   },
+  mapBtnText: { color: "#fff", fontSize: 11, fontWeight: "500" },
   routeWrap: { flexDirection: "row", marginTop: spacing.md, gap: spacing.md },
   routeLine: { width: 16, alignItems: "center", paddingTop: 6 },
   dotFrom: { width: 10, height: 10, borderRadius: 5, backgroundColor: colors.brandPrimary },
