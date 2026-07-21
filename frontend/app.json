@@ -12,7 +12,8 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.emergent.journeymanager.ibmgx4",
       "infoPlist": {
-        "NSPhotoLibraryUsageDescription": "Attach vehicle photos and documents to your fleet"
+        "NSPhotoLibraryUsageDescription": "Attach vehicle photos and documents to your fleet",
+        "NSContactsUsageDescription": "Pick contact numbers for trip from/to locations"
       }
     },
     "android": {
@@ -22,7 +23,7 @@
       },
       "edgeToEdgeEnabled": true,
       "package": "com.emergent.journeymanager.ibmgx4",
-      "permissions": ["READ_EXTERNAL_STORAGE"]
+      "permissions": ["READ_EXTERNAL_STORAGE", "READ_CONTACTS", "CALL_PHONE"]
     },
     "web": {
       "bundler": "metro",
@@ -40,7 +41,13 @@
           "backgroundColor": "#1E3A8A"
         }
       ],
-      "@react-native-community/datetimepicker"
+      "@react-native-community/datetimepicker",
+      [
+        "expo-contacts",
+        {
+          "contactsPermission": "Pick contact numbers for trip from/to locations"
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true

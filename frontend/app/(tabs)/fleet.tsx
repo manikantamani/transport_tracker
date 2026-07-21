@@ -15,6 +15,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { colors, radius, spacing } from "@/src/theme";
 import { DriversDB, VehiclesDB } from "@/src/store/database";
 import { Driver, Vehicle } from "@/src/store/types";
+import { callNumber } from "@/src/utils/contacts";
 
 type Tab = "vehicles" | "drivers";
 
@@ -147,8 +148,18 @@ export default function Fleet() {
               )}
               <View style={{ flex: 1 }}>
                 <Text style={styles.driverName}>{item.name}</Text>
-                <Text style={styles.driverContact}>📞 {item.contactNumber}</Text>
+                <Text style={styles.driverContact}>{item.contactNumber}</Text>
               </View>
+              <Pressable
+                style={styles.callBtn}
+                onPress={(e) => {
+                  e.stopPropagation?.();
+                  callNumber(item.contactNumber);
+                }}
+                testID={`driver-${item.id}-call`}
+              >
+                <Ionicons name="call" size={18} color="#fff" />
+              </Pressable>
               <Ionicons name="chevron-forward" size={20} color={colors.muted} />
             </Pressable>
           )}
@@ -239,6 +250,15 @@ const styles = StyleSheet.create({
   avatarInitials: { color: colors.onBrandTertiary, fontWeight: "500", fontSize: 16 },
   driverName: { fontSize: 15, fontWeight: "500", color: colors.onSurface },
   driverContact: { fontSize: 13, color: colors.muted, marginTop: 2 },
+  callBtn: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: colors.success,
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 4,
+  },
   fab: {
     position: "absolute",
     right: spacing.lg,

@@ -18,6 +18,8 @@ import { colors, radius, spacing } from "@/src/theme";
 import { DriversDB, TripsDB, VehiclesDB } from "@/src/store/database";
 import { Driver, Trip, Vehicle } from "@/src/store/types";
 import DateField from "@/src/components/DateField";
+import ContactPickerModal from "@/src/components/ContactPickerModal";
+import { callNumber } from "@/src/utils/contacts";
 import { useToast } from "@/src/components/Toast";
 
 function todayYMD() {
@@ -46,6 +48,7 @@ export default function TripForm() {
 
   const [showDriverPicker, setShowDriverPicker] = useState(false);
   const [showVehiclePicker, setShowVehiclePicker] = useState(false);
+  const [contactPickerFor, setContactPickerFor] = useState<null | "from" | "to">(null);
 
   const load = useCallback(async () => {
     const [dr, ve] = await Promise.all([DriversDB.list(), VehiclesDB.list()]);
@@ -153,15 +156,36 @@ export default function TripForm() {
             />
           </Field>
           <Field label="From Contact Number">
-            <TextInput
-              style={styles.input}
-              value={fromContact}
-              onChangeText={setFromContact}
-              placeholder="+91 ..."
-              placeholderTextColor={colors.muted}
-              keyboardType="phone-pad"
-              testID="trip-from-contact"
-            />
+            <View style={styles.contactRow}>
+              <TextInput
+                style={[styles.input, styles.contactInput]}
+                value={fromContact}
+                onChangeText={setFromContact}
+                placeholder="+91 ..."
+                placeholderTextColor={colors.muted}
+                keyboardType="phone-pad"
+                testID="trip-from-contact"
+              />
+              <Pressable
+                style={styles.contactIconBtn}
+                onPress={() => setContactPickerFor("from")}
+                testID="trip-from-contact-picker"
+              >
+                <Ionicons name="people" size={18} color={colors.brandPrimary} />
+              </Pressable>
+              <Pressable
+                style={[styles.contactIconBtn, !fromContact.trim() && styles.contactIconBtnDisabled]}
+                onPress={() => callNumber(fromContact)}
+                disabled={!fromContact.trim()}
+                testID="trip-from-contact-call"
+              >
+                <Ionicons
+                  name="call"
+                  size={18}
+                  color={fromContact.trim() ? colors.success : colors.muted}
+                />
+              </Pressable>
+            </View>
           </Field>
 
           <SectionLabel icon="flag" text="To" />
@@ -176,15 +200,36 @@ export default function TripForm() {
             />
           </Field>
           <Field label="To Contact Number">
-            <TextInput
-              style={styles.input}
-              value={toContact}
-              onChangeText={setToContact}
-              placeholder="+91 ..."
-              placeholderTextColor={colors.muted}
-              keyboardType="phone-pad"
-              testID="trip-to-contact"
-            />
+            <View style={styles.contactRow}>
+              <TextInput
+                style={[styles.input, styles.contactInput]}
+                value={toContact}
+                onChangeText={setToContact}
+                placeholder="+91 ..."
+                placeholderTextColor={colors.muted}
+                keyboardType="phone-pad"
+                testID="trip-to-contact"
+              />
+              <Pressable
+                style={styles.contactIconBtn}
+                onPress={() => setContactPickerFor("to")}
+                testID="trip-to-contact-picker"
+              >
+                <Ionicons name="people" size={18} color={colors.brandPrimary} />
+              </Pressable>
+              <Pressable
+                style={[styles.contactIconBtn, !toContact.trim() && styles.contactIconBtnDisabled]}
+                onPress={() => callNumber(toContact)}
+                disabled={!toContact.trim()}
+                testID="trip-to-contact-call"
+              >
+                <Ionicons
+                  name="call"
+                  size={18}
+                  color={toContact.trim() ? colors.success : colors.muted}
+                />
+              </Pressable>
+            </View>
           </Field>
 
           <SectionLabel icon="cash" text="Cost & Assignment" />
@@ -278,6 +323,21 @@ export default function TripForm() {
         allowClear
         emptyText="No vehicles added. Add them in the Fleet tab."
         testIDPrefix="vehicle-option"
+      />
+      {/* Contact picker */}
+      <ContactPickerModal
+        visible={contactPickerFor !== null}
+        onClose={() => setContactPickerFor(null)}
+        onSelect={(c) => {
+          if (contactPickerFor === "from") {
+            setFromContact(c.phone);
+            if (!fromLocation.trim() && c.name) setFromLocation(c.name);
+          } else if (contactPickerFor === "to") {
+            setToContact(c.phone);
+            if (!toLocation.trim() && c.name) setToLocation(c.name);
+          }
+          setContactPickerFor(null);
+        }}
       />
     </SafeAreaView>
   );
@@ -399,6 +459,19 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.border,
   },
+  contactRow: { flexDirection: "row", alignItems: "center", gap: 8 },
+  contactInput: { flex: 1 },
+  contactIconBtn: {
+    width: 44,
+    height: 44,
+    borderRadius: radius.md,
+    backgroundColor: colors.surfaceSecondary,
+    borderWidth: 1,
+    borderColor: colors.border,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  contactIconBtnDisabled: { opacity: 0.5 },
   sectionLabel: {
     flexDirection: "row",
     alignItems: "center",
