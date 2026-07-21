@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { useFocusEffect, useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaProvider,SafeAreaView } from "react-native-safe-area-context";
 
 import { colors, radius, spacing } from "@/src/theme";
 import { DriversDB, VehiclesDB } from "@/src/store/database";
@@ -43,18 +43,17 @@ export default function Fleet() {
   };
 
   return (
-    <SafeAreaView style={styles.safe} edges={["top"]} testID="fleet-screen">
-      <View style={styles.header}>
+    <SafeAreaProvider>
+      <SafeAreaView style={{ flexDirection: 'column', flex:1, width:'100%', backgroundColor:'white'}} >
+        
+          <View style={styles.header}>
         <Text style={styles.title}>Fleet</Text>
         <Text style={styles.subtitle}>
-          {vehicles.length} vehicles · {drivers.length} drivers
+          {vehicles.length} Vehicles . {drivers.length} Drivers
         </Text>
       </View>
-
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={styles.tabRow}
+          <ScrollView
+        horizontal style={{maxHeight:56, padding:16, gap:16}}
       >
         {(["vehicles", "drivers"] as Tab[]).map((t) => {
           const active = tab === t;
@@ -62,12 +61,12 @@ export default function Fleet() {
             <Pressable
               key={t}
               onPress={() => setTab(t)}
-              style={[styles.tabChip, active && styles.tabChipActive]}
+              style={[styles.tabChip, active && styles.tabChipActive, {marginEnd:10}]}
               testID={`fleet-tab-${t}`}
             >
               <Ionicons
                 name={t === "vehicles" ? "car" : "person"}
-                size={14}
+                size={16}
                 color={active ? "#fff" : colors.onSurface}
               />
               <Text style={[styles.tabText, active && styles.tabTextActive]}>
@@ -77,8 +76,13 @@ export default function Fleet() {
           );
         })}
       </ScrollView>
+        
+      
 
-      {tab === "vehicles" ? (
+        <View style={{flex:1, padding:0, alignSelf: 'stretch', gap:16}}>
+
+          
+            {tab === "vehicles" ? (
         <FlatList
           data={vehicles}
           keyExtractor={(v) => v.id}
@@ -165,16 +169,17 @@ export default function Fleet() {
           )}
         />
       )}
-
-      <Pressable style={styles.fab} onPress={onAdd} testID="add-fleet-fab">
-        <Ionicons name="add" size={28} color="#fff" />
-      </Pressable>
-    </SafeAreaView>
+          </View>
+            <Pressable style={styles.fab} onPress={onAdd} testID="add-fleet-fab">
+              <Ionicons name="add" size={28} color="#fff" />
+            </Pressable>
+          </SafeAreaView>
+       </SafeAreaProvider>
   );
 }
 
 const styles = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: colors.surface },
+  safe: { flex: 1, backgroundColor: colors.surface, alignSelf: 'stretch'},
   header: { paddingHorizontal: spacing.lg, paddingTop: spacing.md, paddingBottom: spacing.sm },
   title: { fontSize: 24, fontWeight: "500", color: colors.onSurface },
   subtitle: { fontSize: 13, color: colors.muted, marginTop: 2 },
@@ -261,8 +266,8 @@ const styles = StyleSheet.create({
   },
   fab: {
     position: "absolute",
-    right: spacing.lg,
-    bottom: 84,
+    right: spacing.xl,
+    bottom: 70,
     width: 56,
     height: 56,
     borderRadius: 28,
