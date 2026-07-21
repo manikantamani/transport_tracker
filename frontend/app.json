@@ -21,7 +21,7 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#1E3A8A"
       },
-      "edgeToEdgeEnabled": true,
+      "edgeToEdgeEnabled": false,
       "package": "com.emergent.journeymanager.ibmgx4",
       "permissions": ["READ_EXTERNAL_STORAGE", "READ_CONTACTS", "CALL_PHONE"]
     },
